@@ -6,6 +6,7 @@ import Card from "../components/card/card";
 import Button from "../components/button/button";
 import Form from "../components/form/form";
 import Link from "next/link";
+import RecentPosts from "../components/recentPosts/recentPosts";
 import "../style.css";
 import Particles from "react-particles-js";
 
@@ -49,7 +50,6 @@ const cardFiveBody =
   "Our version of SEO. Digital Real Estate Domination - it's SEO but to the next level. We rank more than just your website, we get you as many spots as possible on search results.";
 
 const Services = props => {
-  const { posts = [] } = props;
     return (
       <>
         <NextSeo
@@ -190,24 +190,7 @@ const Services = props => {
           </div>
         </div>
         <div>
-				<div className="container flex flex-wrap overflow-hidden mx-auto">
-					<div className="w-full overflow-hidden py-8 mt-8 bg-white rounded-lg shadow-lg mx-4">
-						<div className="mx-4">
-							<div className="h2">Recent Posts on WordPress</div>
-							<ul>
-								{posts.map(
-									({ _id, title = "", slug = "", _updatedAt = "" }) =>
-										slug && (
-											<li key={_id} className="my-4">
-												<Link href="/[slug]" as={`/${slug.current}`}>
-													<a className="text-2xl underline">{title}</a>
-												</Link>{" "}
-											</li>
-										)
-								)}
-							</ul>
-						</div>
-					</div>
+				<RecentPosts />
 					<div className="container flex justify-between flex-wrap overflow-hidden mx-auto mb-8">
 						<div className="w-full md:w-7/12 overflow-hidden py-8 bg-white rounded-lg shadow-lg mx-4 mt-8">
 							<div className="mx-8">
@@ -225,7 +208,6 @@ const Services = props => {
 						</div>
 					</div>
 				</div>
-			</div>
         <style jsx>
           {`
             #section--img {
@@ -243,11 +225,5 @@ const Services = props => {
       </>
     );
 }
-
-Services.getInitialProps = async () => ({
-	posts: await client.fetch(groq`
-      *[_type == "post"]|order(publishedAt desc)
-    `)
-});
 
 export default Services;
